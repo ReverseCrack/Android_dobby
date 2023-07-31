@@ -54,6 +54,6 @@ static int my_libtest_log_print(int prio, const char* tag, const char* fmt, ...)
 }
 
 __attribute__((constructor)) static void ctor() {
-    DobbyHook((void *) DobbySymbolResolver(NULL, "__android_log_print"), (void *) my_libtest_log_print,(void **) &orig_log_print);
+    DobbyHook((void *) DobbySymbolResolver("liblog.so", "__android_log_print"), (void *) my_libtest_log_print,(void **) &orig_log_print);
 //    DobbyHook((void *) DobbySymbolResolver("libtest_for_hook.so", "c_test_func"), (void *)&new_c_test_func,(void **)&old_c_test_func);
 }
