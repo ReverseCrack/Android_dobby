@@ -2,11 +2,9 @@
 # documentation: https://d.android.com/studio/projects/add-native-code.html
 
 # Sets the minimum version of CMake required to build the native library.
-
 cmake_minimum_required(VERSION 3.22.1)
 
 # Declares and names the project.
-
 project("dobby_study")
 
 # Creates and names a library, sets it as either STATIC
@@ -20,7 +18,7 @@ set(DDOBBY_DEBUG OFF)
 # 指定 dobby 库目录
 set(DOBBY_SOURCE_DIR Dobby)
 add_subdirectory(${DOBBY_SOURCE_DIR} dobby.out)
-#end
+
 
 add_library( # Sets the name of the library.
         test_for_hook
