@@ -2,15 +2,10 @@ package cn.my.dobby_study;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-
-import java.io.File;
-
-import cn.my.dobby_study.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,23 +16,13 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView showText;
 
-    private final String TAG = "loadsofile";
-
-    private ActivityMainBinding binding;
+    private final String TAG = "dobby_study";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_main);
         showText = findViewById(R.id.textBloardId);
-//        Context context = MainActivity.this;
-//        File dstSoFile = new File(context.getFilesDir(), "libinject.so");
-//        Log.d(TAG,"dstSoFile ---------> "+dstSoFile.getPath());
-
-//        Context context = MainActivity.this;
-//        File dstSoFile = new File(context.getFilesDir(), "libinject.so");
-//        System.load(dstSoFile.getPath());
     }
 
     public void call_native_function(View view) {
@@ -45,11 +30,8 @@ public class MainActivity extends AppCompatActivity {
         showText.setText(result);
     }
 
-    public void call_native_function2(View view) {
-//        showText.setText(stringFromJNI());
-    }
-
     public void dobby_load(View view) {
+        Log.d(TAG,"加载动态库");
 //        showText.setText(stringFromJNI());
 //        Context context = MainActivity.this;
 //        File dstSoFile = new File(context.getFilesDir(), "libinject.so");
@@ -61,5 +43,4 @@ public class MainActivity extends AppCompatActivity {
      * which is packaged with this application.
      */
     public native String call_test_function();
-//    public native String stringFromJNI();
 }

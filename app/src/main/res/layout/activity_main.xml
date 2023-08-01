@@ -20,13 +20,6 @@
         android:onClick="call_native_function"
         android:text="执行native方法(测试hook效果)" />
 
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="call_native_function2"
-        android:text="执行native方法2(测试hook效果)" />
-
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
