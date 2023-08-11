@@ -20,9 +20,25 @@ int c_test_func(int i) {
     return i + 10;
 }
 
+static int (*orig_log_print)(int prio, const char* tag, const char* fmt, ...);
+static int my_libtest_log_print(int prio, const char* tag, const char* fmt, ...)
+{
+    va_list ap;
+    char buf[1024];
+    int r;
+
+    snprintf(buf, sizeof(buf), "[%s] %s", (NULL == tag ? "" : tag), (NULL == fmt ? "" : fmt));
+
+    va_start(ap, fmt);
+    r = __android_log_vprint(prio, "Dobby_libtest", buf, ap);
+    va_end(ap);
+    return r;
+}
+
 __attribute__((constructor)) static void dylibInject() {
 //    void *target_addr = (void *) DobbySymbolResolver("libtest_for_hook.so", "c_test_func");
     DobbyHook((void *) &c_test_func, (void *) &new_c_test_func, (void **) &old_c_test_func);
+    DobbyHook((void *) DobbySymbolResolver(NULL, "__android_log_print"), (void *) my_libtest_log_print,(void **) &orig_log_print);
 }
 
 extern "C"
