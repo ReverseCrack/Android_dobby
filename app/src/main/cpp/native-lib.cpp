@@ -16,13 +16,14 @@ static int new_c_test_func(int i) {
 
 // 待 hook 函数
 int c_test_func(int i) {
-    LOGE("c_test_func: %s, Line: %d, Func: %s vaddr:0x%lx\n", __FILE__, __LINE__, __func__,&c_test_func);
+    LOGE("c_test_func: %s, Line: %d, Func: %s vaddr:0x%lx\n", __FILE__, __LINE__, __func__,
+         &c_test_func);
     return i + 10;
 }
 
-static int (*orig_log_print)(int prio, const char* tag, const char* fmt, ...);
-static int my_libtest_log_print(int prio, const char* tag, const char* fmt, ...)
-{
+static int (*orig_log_print)(int prio, const char *tag, const char *fmt, ...);
+
+static int my_libtest_log_print(int prio, const char *tag, const char *fmt, ...) {
     va_list ap;
     char buf[1024];
     int r;
@@ -39,7 +40,8 @@ __attribute__((constructor)) static void dylibInject() {
     void *target_addr = (void *) DobbySymbolResolver("base.apk", "_Z11c_test_funci");
     DobbyHook(target_addr, (void *) &new_c_test_func, (void **) &old_c_test_func);
 //    DobbyHook((void *) &c_test_func, (void *) &new_c_test_func, (void **) &old_c_test_func);
-    DobbyHook((void *) DobbySymbolResolver(NULL, "__android_log_print"), (void *) my_libtest_log_print,(void **) &orig_log_print);
+    void *log_vaddr = (void *) DobbySymbolResolver(NULL, "__android_log_print");
+    DobbyHook(log_vaddr, (void *) my_libtest_log_print, (void **) &orig_log_print);
 }
 
 extern "C"
